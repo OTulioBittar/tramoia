@@ -1,0 +1,263 @@
+#include <iostream>
+#include <string>
+#include <locale>
+#include <windows.h>
+#include <vector>
+
+using namespace std;
+
+class Autor {
+private:
+    string nomeAutor;
+    string cpfUsuario;
+
+public:
+    Autor(const string& nomeAutor, const string& cpfUsuario)
+        : nomeAutor(nomeAutor), cpfUsuario(cpfUsuario) {}
+
+    string getNomeAutor() const {
+        return nomeAutor;
+    }
+
+    string getCPFUsuario() const {
+        return cpfUsuario;
+    }
+
+    bool validarCPF() const {
+        // Verifica se o CPF tem exatamente 11 dígitos
+        return cpfUsuario.size() == 11;
+    }
+};
+
+class Usuario {
+private:
+    string nomeUsuario;
+    string cpfUsuario;
+
+public:
+    Usuario(const string& nomeUsuario, const string& cpfUsuario)
+        : nomeUsuario(nomeUsuario), cpfUsuario(cpfUsuario) {}
+
+    string getNomeUsuario() const {
+        return nomeUsuario;
+    }
+
+    string getCPFUsuario() const {
+        return cpfUsuario;
+    }
+
+    bool validarCPF() const {
+        // Verifica se o CPF tem exatamente 11 dígitos
+        return cpfUsuario.size() == 11;
+    }
+};
+
+class Gerenciador {
+private:
+    vector<Autor*> autores; // recebe o obejto e adiciona ao vetor <autor1>
+    vector<Usuario*> usuarios; // mesma coisa de vetor
+
+public:
+    void cadastraAutor(const string& nomeAutor, const string& cpfUsuario, bool validarCPF) {
+        if (validarCPF) {
+            Autor* autor = new Autor(nomeAutor, cpfUsuario); // cria o objeto autor, e aloca espaço 
+            if (!autor->validarCPF()) {
+                cout << "CPF inválido. O CPF deve ter exatamente 11 dígitos.";
+                cout << "\n";
+                delete autor;
+                return;
+            }
+            autores.push_back(autor); // adiciona o autor novo ao vetor autor, exemplo (autor1) recebeu outro o vetor fica <autor1,autor2>
+        } else {
+            Autor* autor = new Autor(nomeAutor, cpfUsuario);
+            autores.push_back(autor); // adiciona o autor novo ao vetor autor, exemplo (autor1) recebeu outro o vetor fica <autor1,autor2>
+        }
+        cout << "Autor cadastrado com sucesso.";
+        cout << "\n";
+    }
+
+    void cadastraUsuario(const string& nomeUsuario, const string& cpfUsuario, bool validarCPF) {
+        if (validarCPF) {
+            Usuario* usuario = new Usuario(nomeUsuario, cpfUsuario); // cria o objeto usuario, e aloca espaço 
+            if (!usuario->validarCPF()) {
+                cout << "CPF inválido. O CPF deve ter exatamente 11 dígitos." ;
+                cout << "\n";
+                delete usuario;
+                return;
+            }
+            usuarios.push_back(usuario); //mesma coisa de autor
+        } else {
+            Usuario* usuario = new Usuario(nomeUsuario, cpfUsuario);
+            usuarios.push_back(usuario);
+        }
+        cout << "Usuário cadastrado com sucesso."; //mesma coisa de autor
+        cout << "\n";
+    }
+
+    void listarAutores() const {
+        cout << "Lista de Autores:";
+        cout << "\n";
+        for (Autor* autor : autores) {
+            cout << "Nome do Autor: " << autor->getNomeAutor() << ", CPF do Autor: " << autor->getCPFUsuario() ;
+            cout << "\n";
+        }
+    }
+
+    void listarUsuarios() const {
+        cout << "Lista de Usuários:" ;
+        cout << "\n";
+        for (Usuario* usuario : usuarios) {
+            cout << "Nome do Usuário: " << usuario->getNomeUsuario() << ", CPF do Usuário: " << usuario->getCPFUsuario();
+            cout << "\n";
+        }
+    }
+
+    void inserirRegistrosAutomaticos() {
+        cadastraAutor("Autor1", "12345678912", true);
+        cadastraAutor("Autor2", "98765432198", true);
+        cadastraAutor("Autor3", "96765432198", true);
+        cadastraAutor("Rafael", "96769432198", true);
+        cadastraAutor("Tulio", "96769431198", true);
+        cadastraUsuario("Usuário1", "11111111111", true);
+        cadastraUsuario("Usuário2", "22222222222", true);
+        cadastraUsuario("Usuário3", "33333333333", true);
+        cadastraUsuario("Usuário4", "44444444444", true);
+        cadastraUsuario("Usuário5", "55555555555", true);
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "Portuguese");
+
+    char opcao = '0';
+    Gerenciador gerenciador;
+
+    do {
+        cout << "\nDigite:\n\n";
+        cout << "1) Cadastrar Filme\n";
+        cout << "2) Cadastrar Autor\n";
+        cout << "3) Cadastrar Usuário\n";
+        cout << "4) Listar Autores\n";
+        cout << "5) Listar Filmes\n";
+        cout << "6) Listar Usuários\n";
+        cout << "7) Pesquisar Filme\n";
+        cout << "8) Pesquisar Autor\n";
+        cout << "9) Pesquisar Usuário\n";
+        cout << "A) Inserir Registros Automáticos\n";
+        cout << "S) Sair\n\n";
+        cout << "Opção: ";
+        cin >> opcao;
+
+        switch (opcao) {
+            case '1': {
+                cout << "Falta implementar a função 'Cadastrar Filme'";
+                cout << "\n";
+                break;
+            }
+            case '2': {
+                string nomeAutor, cpfAutor;
+
+                cout << "\n=== Cadastro de Autor ===\n";
+                cout << "Nome do Autor: ";
+                cin.ignore();
+                getline(cin, nomeAutor);
+                cout << "CPF do Autor: ";
+                getline(cin, cpfAutor);
+
+                gerenciador.cadastraAutor(nomeAutor, cpfAutor, true);
+                break;
+            }
+            case '3': {
+                string nomeUsuario, cpfUsuario;
+
+                cout << "\n=== Cadastro de Usuário ===\n";
+                cout << "Nome do Usuário: ";
+                cin.ignore();
+                getline(cin, nomeUsuario);
+                cout << "CPF do Usuário: ";
+                getline(cin, cpfUsuario);
+
+                gerenciador.cadastraUsuario(nomeUsuario, cpfUsuario, true);
+                break;
+            }
+            case '4': {
+                gerenciador.listarAutores();
+                Sleep(2000); // Aguarda 2000 milissegundos (2 segundos)
+                break;
+            }
+            case '5': {
+                cout << "Falta implementar a função 'Listar Filmes'";
+                cout << "\n";
+                Sleep(2000);
+                break;
+            }
+            case '6': {
+                gerenciador.listarUsuarios();
+                Sleep(2000);
+                break;
+            }
+            case '7': {
+                string titulo, genero, nomeAutor;
+
+                cout << "\n=== Pesquisa de Filme ===\n";
+                cout << "Título: ";
+                cin.ignore();
+                getline(cin, titulo);
+                cout << "Gênero: ";
+                getline(cin, genero);
+                cout << "Nome do Autor: ";
+                getline(cin, nomeAutor);
+
+                break;
+            }
+            case '8': {
+                string nomeAutor, cpfAutor;
+
+                cout << "\n=== Pesquisa de Autor ===\n";
+                cout << "Nome do Autor: ";
+                cin.ignore();
+                getline(cin, nomeAutor);
+                cout << "CPF do Autor: ";
+                getline(cin, cpfAutor);
+                cout << "Falta implementar a função 'Pesquisar Autor'";
+                cout << "\n";
+                break;
+            }
+            case '9': {
+                string nomeUsuario, cpfUsuario;
+
+                cout << "\n=== Pesquisa de Usuário ===\n";
+                cout << "Nome do Usuário: ";
+                cin.ignore();
+                getline(cin, nomeUsuario);
+                cout << "CPF do Usuário: ";
+                getline(cin, cpfUsuario);
+                cout << "Falta implementar a função 'Pesquisar Usuário'";
+                cout << "\n";
+                break;
+            }
+            case 'A':
+            case 'a': {
+                gerenciador.inserirRegistrosAutomaticos();
+                cout << "Registros automáticos inseridos com sucesso." ;
+                cout << "\n";
+                break;
+            }
+            case 'S':
+            case 's': {
+                cout << "Encerrando o programa..." ;
+                cout << "\n";
+                break;
+            }
+            default:
+                cout << "Opção inválida. Digite novamente." ;
+                cout << "\n";
+                break;
+        }
+        Sleep(2000); // Aguarda 2000 milissegundos (2 segundos)
+        system("cls");
+
+    } while (opcao != 'S' && opcao != 's');
+
+    return 0;
+}
